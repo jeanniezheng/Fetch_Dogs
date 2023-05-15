@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import BreedFiltering from './BreedFiltering';
 import ZipcodeFilter from './ZipcodeFilter';
 import AgeFilter from './AgeFilter';
+import FavoriteDogs from './FavoriteDogs';
 
 
-const SideBar = ({ dogs, handleBreedChange, handleZipCodeChange, handleMaxAgeChange, handleMinAgeChange }) => {
+
+const SideBar = ({ dogs, handleBreedChange, handleZipCodeChange, handleMaxAgeChange, handleMinAgeChange, handleFavoriteDogsClick }) => {
 
     return (
         <>
@@ -26,6 +28,8 @@ const SideBar = ({ dogs, handleBreedChange, handleZipCodeChange, handleMaxAgeCha
                 <h3>Enter Age</h3>
                 <AgeFilter dogs={dogs} handleMaxAgeChange={handleMaxAgeChange} handleMinAgeChange={handleMinAgeChange} />
             </div>
+
+            <FavoriteDogs handleFavoriteDogsClick={handleFavoriteDogsClick} />
         </>
     );
 };

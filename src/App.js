@@ -128,6 +128,9 @@ const App = () => {
     }
   };
 
+  const handleFavoriteDogsClick = (value) => {
+    console.log('clicked')
+  }
 
 
   const handleNextClick = () => {
@@ -160,6 +163,7 @@ const App = () => {
               handleZipCodeChange={handleZipCodeChange}
               handleMaxAgeChange={handleMaxAgeChange}
               handleMinAgeChange={handleMinAgeChange}
+              handleFavoriteDogsClick={handleFavoriteDogsClick}
             />
           </div>
           <DogDisplay dogs={dogs} handleHeartClick={handleHeartClick} heartedDogs={heartedDogs} />          <div className="page-bar">
