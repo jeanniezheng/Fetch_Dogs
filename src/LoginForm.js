@@ -20,18 +20,22 @@ const LoginForm = ({ onLogin }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label>
-                Name:
-                <input type="text" value={name} onChange={handleNameChange} />
-            </label>
-            <br />
-            <label>
-                Email:
-                <input type="email" value={email} onChange={handleEmailChange} />
-            </label>
-            <br />
-            <button type="submit">Login</button>
+        <form className='login-form' onSubmit={handleSubmit}>
+            <h1>Please Login</h1>
+            <div className='login-form-wrapper'>
+
+                <label>
+                    Name:
+                    <input type="text" value={name} onChange={handleNameChange} />
+                </label>
+                <br />
+                <label>
+                    Email:
+                    <input type="email" value={email} onChange={handleEmailChange} />
+                </label>
+                <br />
+                <button type="submit">Login</button>
+            </div>
         </form>
     );
 };

@@ -10,6 +10,59 @@
   display: flex;
 }
 
+/* Login Form */
+.login-form {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-image: url("./paw.png");
+}
+
+.login-form-wrapper {
+  background-color: #ffffff;
+  width: 50%;
+  height: 30%;
+  padding: 50px;
+}
+
+.login-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.login-form label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
+.login-form button {
+  width: 10%;
+  min-width: 100px;
+  padding: 8px;
+  background-color: rgb(110, 135, 118);
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.login-form button:hover {
+  background-color: #45a049;
+}
+
 /* Dog display */
 .greetings {
   /* display: flex; */
