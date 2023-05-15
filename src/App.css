@@ -10,6 +10,8 @@
   display: flex;
 }
 
+/* Dog display */
+
 .dog-card-name {
   margin-right: 10px;
 }
@@ -24,11 +26,11 @@
 }
 
 .dog-card-container {
-  /* background-image: url('https://i.pinimg.com/736x/ea/6f/77/ea6f77061e5940b381f122098f81e588.jpg'); */
   background-color: rgb(255, 255, 255);
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  margin-left: 10px;
 }
 
 .dog-card img {
@@ -65,4 +67,30 @@ img {}
 .img-wrapper img {
   transition: all .25s ease;
   vertical-align: middle;
+}
+
+/* Side Bar */
+.sidebar {
+  flex: 0 0 100px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background-color: (rgb(62, 53, 53), green, blue, alpha);
+  padding: 20px;
+  overflow: scroll;
+  min-width: 200px;
+  width: 20vw;
+  margin-right: 30px;
+}
+
+.sidebar-item {
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+}
+
+.content {
+  flex: 1;
+  margin-left: 200px;
 }

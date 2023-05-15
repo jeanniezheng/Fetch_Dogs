@@ -5,6 +5,8 @@ import DogDisplay from './DogDisplay';
 import NextButton from './NextButton';
 import BackButton from './BackButton';
 import PaginationBar from './PaginationBar';
+import SideBar from './SideBar';
+
 import './App.css';
 
 const App = () => {
@@ -88,6 +90,10 @@ const App = () => {
         <LoginForm onLogin={handleLogin} />
       ) : (
         <div className="content">
+          <div className="sidebar">
+            <SideBar
+            />
+          </div>
           <DogDisplay dogs={dogs} />
           <BackButton fetchDogs={fetchDogs} handleClick={handleBackClick} />
           <PaginationBar
