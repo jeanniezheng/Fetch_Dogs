@@ -204,10 +204,15 @@
   margin-bottom: 15px;
 }
 
+.sidebar-buttons {
+  display: flex;
+  flex-direction: column;
+}
+
 .favorite-dogs-button,
 .generate-dogs-button {
   height: 70px;
-  width: 150px;
+  width: 200px;
   border-radius: 20px;
   border-width: 1px;
   font-size: 25px;
@@ -221,7 +226,6 @@
   margin-left: 200px;
   z-index: 5;
 }
-
 
 
 /* Breed filter */
