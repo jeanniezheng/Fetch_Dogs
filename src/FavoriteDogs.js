@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
-const FavoriteDogs = ({ handleFavoriteDogsClick }) => {
+const FavoriteDogs = ({ handleFavoriteDogsClick, onFavoriteDogsSection }) => {
 
-
+    let text = onFavoriteDogsSection ? "Show All Dogs" : "Favorite Dogs"
     return (
-        <button onClick={handleFavoriteDogsClick}>Favorite Dogs</button>
+        <button onClick={handleFavoriteDogsClick}>{text}</button>
     );
 };
 

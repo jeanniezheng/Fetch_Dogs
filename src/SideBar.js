@@ -6,7 +6,7 @@ import FavoriteDogs from './FavoriteDogs';
 
 
 
-const SideBar = ({ dogs, handleBreedChange, handleZipCodeChange, handleMaxAgeChange, handleMinAgeChange, handleFavoriteDogsClick }) => {
+const SideBar = ({ dogs, handleBreedChange, handleZipCodeChange, handleMaxAgeChange, handleMinAgeChange, handleFavoriteDogsClick, onFavoriteDogsSection }) => {
 
     return (
         <>
@@ -29,7 +29,7 @@ const SideBar = ({ dogs, handleBreedChange, handleZipCodeChange, handleMaxAgeCha
                 <AgeFilter dogs={dogs} handleMaxAgeChange={handleMaxAgeChange} handleMinAgeChange={handleMinAgeChange} />
             </div>
 
-            <FavoriteDogs handleFavoriteDogsClick={handleFavoriteDogsClick} />
+            <FavoriteDogs handleFavoriteDogsClick={handleFavoriteDogsClick} onFavoriteDogsSection={onFavoriteDogsSection} />
         </>
     );
 };

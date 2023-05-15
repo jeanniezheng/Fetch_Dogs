@@ -25,6 +25,7 @@ const App = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [sort, setSort] = useState('asc');
   const [sortField, setSortField] = useState('breed');
+  const [onFavoriteDogsSection, setOnFavoriteDogsSection] = useState(false)
 
 
 
@@ -32,7 +33,8 @@ const App = () => {
     if (isAuthenticated) {
       fetchDogs();
     }
-  }, [isAuthenticated, currentPage, breedFilter, zipCodeFilter, minAgeFilter, maxAgeFilter, heartedDogs, sort]);
+    console.log(onFavoriteDogsSection)
+  }, [isAuthenticated, currentPage, breedFilter, zipCodeFilter, minAgeFilter, maxAgeFilter, heartedDogs, onFavoriteDogsSection, sort]);
 
   const handleLogin = async (name, email) => {
     try {
@@ -75,19 +77,24 @@ const App = () => {
 
   const fetchDogs = async () => {
     try {
-      const url = buildFetchDogsURL();
+      if (!onFavoriteDogsSection) {
 
-      const idResponse = await axios.get(url, { withCredentials: true });
-      const { resultIds, total } = idResponse.data;
+        const url = buildFetchDogsURL();
 
-      const response = await axios.post(`${API_BASE_URL}/dogs`, resultIds, {
-        withCredentials: true,
-      });
+        const idResponse = await axios.get(url, { withCredentials: true });
+        const { resultIds, total } = idResponse.data;
 
-      const fetchedDogs = response.data;
-      setDogs(fetchedDogs);
-      console.log('URL:', url);
-      setTotalPages(Math.ceil(total / DOGS_PER_PAGE));
+        const response = await axios.post(`${API_BASE_URL}/dogs`, resultIds, {
+          withCredentials: true,
+        });
+
+        const fetchedDogs = response.data;
+        setDogs(fetchedDogs);
+        console.log('URL:', url);
+        setTotalPages(Math.ceil(total / DOGS_PER_PAGE));
+      } else {
+        fetchFavoriteDogs()
+      }
     } catch (error) {
       console.error('Failed to fetch dogs:', error);
     }
@@ -128,8 +135,29 @@ const App = () => {
     }
   };
 
-  const handleFavoriteDogsClick = (value) => {
-    console.log('clicked')
+  const fetchFavoriteDogs = async () => {
+    try {
+      const response = await axios.post(`https://frontend-take-home-service.fetch.com/dogs`, heartedDogs, {
+        withCredentials: true,
+      });
+      const fetchedDogs = response.data;
+      setDogs(fetchedDogs);
+      let total = fetchedDogs.length;
+      setTotalPages(Math.ceil(total / DOGS_PER_PAGE));
+    } catch (error) {
+      console.log('unable to fetch dogs ' + error)
+    }
+  }
+
+  const handleFavoriteDogsClick = () => {
+    if (!onFavoriteDogsSection) {
+      fetchFavoriteDogs()
+      setOnFavoriteDogsSection(!onFavoriteDogsSection)
+
+    } else {
+      fetchDogs()
+      setOnFavoriteDogsSection(!onFavoriteDogsSection)
+    }
   }
 
 
@@ -156,6 +184,11 @@ const App = () => {
         <LoginForm onLogin={handleLogin} />
       ) : (
         <div className="content">
+          {onFavoriteDogsSection &&
+            <div>
+              <h1>Favorite Doggos!</h1>
+            </div>
+          }
           <div className="sidebar">
             <SideBar
               dogs={dogs}
@@ -164,6 +197,7 @@ const App = () => {
               handleMaxAgeChange={handleMaxAgeChange}
               handleMinAgeChange={handleMinAgeChange}
               handleFavoriteDogsClick={handleFavoriteDogsClick}
+              onFavoriteDogsSection={onFavoriteDogsSection}
             />
           </div>
           <DogDisplay dogs={dogs} handleHeartClick={handleHeartClick} heartedDogs={heartedDogs} />          <div className="page-bar">
