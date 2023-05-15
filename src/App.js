@@ -61,6 +61,9 @@ const App = () => {
     }
   };
 
+  const handleBreedChange = () => {
+  }
+
   const buildFetchDogsURL = () => {
     let url = `${API_BASE_URL}/dogs/search?size=${DOGS_PER_PAGE}&from=${currentPage}`;
 
@@ -92,6 +95,7 @@ const App = () => {
         <div className="content">
           <div className="sidebar">
             <SideBar
+              handleBreedChange={handleBreedChange}
             />
           </div>
           <DogDisplay dogs={dogs} />
