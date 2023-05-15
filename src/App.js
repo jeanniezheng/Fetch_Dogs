@@ -1,25 +1,44 @@
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import LoginForm from './LoginForm';
 import './App.css';
 
-function App() {
+const App = () => {
+  const API_BASE_URL = 'https://frontend-take-home-service.fetch.com';
+  const DOGS_PER_PAGE = 20;
+
+  const [user, setUser] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+
+  const handleLogin = async (name, email) => {
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/auth/login`,
+        { name, email },
+        { withCredentials: true }
+      );
+
+      setUser({ name, email });
+      setIsAuthenticated(true);
+    } catch (error) {
+      console.error('Failed to login:', error);
+    }
+  };
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app-container">
+      {!isAuthenticated ? (
+        <LoginForm onLogin={handleLogin} />
+      ) : (
+        <>
+          <h1 className="greeting">Welcome, {user.name}!</h1>
+        </>
+      )}
     </div>
   );
-}
+};
 
 export default App;
+
