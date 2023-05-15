@@ -31,7 +31,7 @@ const PaginationBar = ({ totalPages, currentPage, handleClick }) => {
         );
 
         if (startPageIndex > 1) {
-            pageNumbers.push(<span className='ellipsis' key="ellipsis">...</span>);
+            pageNumbers.push(<span className='ellipsis' key="ellipsis1">...</span>);
         }
     }
 
@@ -52,7 +52,7 @@ const PaginationBar = ({ totalPages, currentPage, handleClick }) => {
 
     if (endPageIndex < totalPages - 1) {
         if (endPageIndex < totalPages - 2) {
-            pageNumbers.push(<span className='ellipsis' key="ellipsis">...</span>);
+            pageNumbers.push(<span className='ellipsis' key="ellipsis2">...</span>);
         }
 
         pageNumbers.push(

@@ -2,9 +2,7 @@ import { React } from 'react';
 
 const NextButton = ({ handleClick }) => {
     return (
-        <div>
-            <button onClick={handleClick}>Next</button>
-        </div>
+        <button className='next-button' onClick={handleClick}>Next</button>
     )
 }
 

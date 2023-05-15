@@ -152,13 +152,15 @@ const App = () => {
             />
           </div>
           <DogDisplay dogs={dogs} />
-          <BackButton fetchDogs={fetchDogs} handleClick={handleBackClick} />
-          <PaginationBar
-            totalPages={totalPages}
-            currentPage={currentPage}
-            handleClick={handlePaginationBarClick}
-          />
-          <NextButton fetchDogs={fetchDogs} handleClick={handleNextClick} />
+          <div className="page-bar">
+            <BackButton fetchDogs={fetchDogs} handleClick={handleBackClick} />
+            <PaginationBar
+              totalPages={totalPages}
+              currentPage={currentPage}
+              handleClick={handlePaginationBarClick}
+            />
+            <NextButton fetchDogs={fetchDogs} handleClick={handleNextClick} />
+          </div>
         </div>
       )}
     </div>
