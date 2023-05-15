@@ -19,7 +19,7 @@ const App = () => {
     if (isAuthenticated) {
       fetchDogs();
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, currentPage]);
 
   const handleLogin = async (name, email) => {
     try {
@@ -48,7 +48,6 @@ const App = () => {
       });
 
       const fetchedDogs = response.data;
-
       setDogs(fetchedDogs);
       console.log('URL:', url);
     } catch (error) {
@@ -62,6 +61,16 @@ const App = () => {
     return url;
   };
 
+  const handleNextClick = () => {
+    setCurrentPage((prevPage) => prevPage + DOGS_PER_PAGE);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleBackClick = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - DOGS_PER_PAGE, 0));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
 
   return (
     <div className="app-container">
@@ -70,6 +79,8 @@ const App = () => {
       ) : (
         <div className="content">
           <DogDisplay dogs={dogs} />
+          <BackButton fetchDogs={fetchDogs} handleClick={handleBackClick} />
+          <NextButton fetchDogs={fetchDogs} handleClick={handleNextClick} />
         </div>
       )}
     </div>
