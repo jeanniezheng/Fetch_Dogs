@@ -71,6 +71,9 @@ const App = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleZipCodeChange = (value) => {
+
+  }
 
   const buildFetchDogsURL = () => {
     let url = `${API_BASE_URL}/dogs/search?size=${DOGS_PER_PAGE}&from=${currentPage}`;
@@ -110,6 +113,7 @@ const App = () => {
             <SideBar
               dogs={dogs}
               handleBreedChange={handleBreedChange}
+              handleZipCodeChange={handleZipCodeChange}
             />
           </div>
           <DogDisplay dogs={dogs} />
