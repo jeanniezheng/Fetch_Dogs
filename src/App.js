@@ -33,6 +33,8 @@ const App = () => {
     if (isAuthenticated) {
       fetchDogs();
     }
+    console.log('DOGS' + JSON.stringify(dogs))
+    console.log(heartedDogs)
     console.log(onFavoriteDogsSection)
   }, [isAuthenticated, currentPage, breedFilter, zipCodeFilter, minAgeFilter, maxAgeFilter, heartedDogs, onFavoriteDogsSection, sort]);
 
@@ -145,7 +147,7 @@ const App = () => {
 
   const fetchFavoriteDogs = async () => {
     try {
-      const response = await axios.post(`https://frontend-take-home-service.fetch.com/dogs`, heartedDogs, {
+      const response = await axios.post(`${API_BASE_URL}/dogs`, heartedDogs, {
         withCredentials: true,
       });
       const fetchedDogs = response.data;
@@ -165,6 +167,30 @@ const App = () => {
     } else {
       fetchDogs()
       setOnFavoriteDogsSection(!onFavoriteDogsSection)
+    }
+  }
+
+  const handleGenerateMatchClick = async () => {
+    try {
+      const response = await axios.post(`${API_BASE_URL}/dogs/match`, heartedDogs, {
+        withCredentials: true,
+      });
+      const fetchedDogs = response.data.match;
+      console.log('MATCHED ID ' + fetchedDogs)
+
+
+      const matchedDog = await axios.post(`${API_BASE_URL}/dogs`, [fetchedDogs], {
+        withCredentials: true,
+      });
+
+      let results = matchedDog.data
+      console.log('RESULTS ' + JSON.stringify(results))
+
+
+      setDogs(results)
+      console.log('Doggy' + JSON.stringify(matchedDog.data))
+    } catch (error) {
+      console.log('unable to fetch dogs ' + error)
     }
   }
 
@@ -192,10 +218,12 @@ const App = () => {
         <LoginForm onLogin={handleLogin} />
       ) : (
         <div className="content">
-          {onFavoriteDogsSection &&
+          {onFavoriteDogsSection ?
             <div>
-              <h1>Favorite Doggos!</h1>
-            </div>
+              <h1 className='greetings'>Favorite Doggos!</h1>
+            </div> :
+            <h1 className='greetings'>Hi there {user.name}! Welcome to Doggy Land</h1>
+
           }
           <div className="sidebar">
             <SideBar
@@ -207,6 +235,7 @@ const App = () => {
               handleFavoriteDogsClick={handleFavoriteDogsClick}
               onFavoriteDogsSection={onFavoriteDogsSection}
               handleSort={handleSort}
+              handleGenerateMatchClick={handleGenerateMatchClick}
 
             />
           </div>
