@@ -19,13 +19,16 @@ const App = () => {
   const [breedFilter, setBreedFilter] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+  const [sort, setSort] = useState('asc');
+  const [sortField, setSortField] = useState('breed');
+
 
 
   useEffect(() => {
     if (isAuthenticated) {
       fetchDogs();
     }
-  }, [isAuthenticated, currentPage, breedFilter]);
+  }, [isAuthenticated, currentPage, breedFilter, sort]);
 
   const handleLogin = async (name, email) => {
     try {
@@ -64,7 +67,7 @@ const App = () => {
 
   const handleBreedChange = (value) => {
     setBreedFilter(value);
-    setCurrentPage(0);
+    // setCurrentPage(0);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -76,7 +79,7 @@ const App = () => {
       const breedQueryString = breedFilter.map(breed => `breeds=${breed}`).join('&');
       url += `&${breedQueryString}`;
     }
-
+    url += `&sort=${sortField}:${sort}`;
     return url;
   };
 
