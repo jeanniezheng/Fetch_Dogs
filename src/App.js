@@ -79,6 +79,14 @@ const App = () => {
     }
   };
 
+  const handleMaxAgeChange = (value) => {
+
+  }
+
+  const handleMinAgeChange = (value) => {
+
+  }
+
   const buildFetchDogsURL = () => {
     let url = `${API_BASE_URL}/dogs/search?size=${DOGS_PER_PAGE}&from=${currentPage}`;
 
@@ -124,6 +132,8 @@ const App = () => {
               dogs={dogs}
               handleBreedChange={handleBreedChange}
               handleZipCodeChange={handleZipCodeChange}
+              handleMaxAgeChange={handleMaxAgeChange}
+              handleMinAgeChange={handleMinAgeChange}
             />
           </div>
           <DogDisplay dogs={dogs} />

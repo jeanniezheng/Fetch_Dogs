@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import BreedFiltering from './BreedFiltering';
 import ZipcodeFilter from './ZipcodeFilter';
+import AgeFilter from './AgeFilter';
 
 
-const SideBar = ({ dogs, handleBreedChange, handleZipCodeChange }) => {
+const SideBar = ({ dogs, handleBreedChange, handleZipCodeChange, handleMaxAgeChange, handleMinAgeChange }) => {
 
     return (
         <>
@@ -23,6 +24,7 @@ const SideBar = ({ dogs, handleBreedChange, handleZipCodeChange }) => {
             </div>
             <div className="sidebar-item">
                 <h3>Enter Age</h3>
+                <AgeFilter dogs={dogs} handleMaxAgeChange={handleMaxAgeChange} handleMinAgeChange={handleMinAgeChange} />
             </div>
         </>
     );
