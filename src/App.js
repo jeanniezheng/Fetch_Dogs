@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import LoginForm from './LoginForm';
 import DogDisplay from './DogDisplay';
+import NextButton from './NextButton';
+import BackButton from './BackButton';
 import './App.css';
 
 const App = () => {
