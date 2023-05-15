@@ -16,6 +16,7 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [dogs, setDogs] = useState([]);
+  const [breedFilter, setBreedFilter] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
 
@@ -24,7 +25,7 @@ const App = () => {
     if (isAuthenticated) {
       fetchDogs();
     }
-  }, [isAuthenticated, currentPage]);
+  }, [isAuthenticated, currentPage, breedFilter]);
 
   const handleLogin = async (name, email) => {
     try {
@@ -61,11 +62,20 @@ const App = () => {
     }
   };
 
-  const handleBreedChange = () => {
-  }
+  const handleBreedChange = (value) => {
+    setBreedFilter(value);
+    setCurrentPage(0);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
 
   const buildFetchDogsURL = () => {
     let url = `${API_BASE_URL}/dogs/search?size=${DOGS_PER_PAGE}&from=${currentPage}`;
+
+    if (breedFilter && breedFilter.length > 0) {
+      const breedQueryString = breedFilter.map(breed => `breeds=${breed}`).join('&');
+      url += `&${breedQueryString}`;
+    }
 
     return url;
   };
@@ -95,6 +105,7 @@ const App = () => {
         <div className="content">
           <div className="sidebar">
             <SideBar
+              dogs={dogs}
               handleBreedChange={handleBreedChange}
             />
           </div>
