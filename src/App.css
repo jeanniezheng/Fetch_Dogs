@@ -18,8 +18,6 @@
 
 .dog-card {
   margin: 10px;
-  /* background-color: #e1ccad; */
-  /* background-color: #a6aea9; */
   border: 1px solid black;
   border-radius: 20px;
   padding: 20px;
@@ -63,6 +61,63 @@
   vertical-align: middle;
 }
 
+.dog-card-info-wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  margin-top: 5px;
+  background-color: rgba(175, 196, 182, 0.6);
+  border-radius: 20px;
+}
+
+/* Heart */
+.heart {
+  position: relative;
+  width: 50px;
+  /* height: 60px; */
+  margin-top: 10px;
+}
+
+.heart::before,
+.heart::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 25px;
+  height: 40px;
+  border-radius: 50px 50px 0 0;
+  background: rgb(255, 255, 255);
+}
+
+.heart::before {
+  left: 25px;
+  transform: rotate(-45deg);
+  transform-origin: 0 100%;
+}
+
+.heart::after {
+  left: 0;
+  transform: rotate(45deg);
+  transform-origin: 100% 100%;
+}
+
+.hearted::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 25px;
+  height: 40px;
+  border-radius: 50px 50px 0 0;
+  background: rgb(237, 166, 166);
+}
+
+.hearted::before {
+  left: 25px;
+  transform: rotate(-45deg);
+  transform-origin: 0 100%;
+  background: rgb(237, 166, 166);
+}
+
 /* Side Bar */
 .sidebar {
   flex: 0 0 100px;
@@ -70,18 +125,23 @@
   top: 0;
   left: 0;
   bottom: 0;
-  background-color: (rgb(62, 53, 53), green, blue, alpha);
+  /* background-color: rgb(245, 245, 220, .5); */
   padding: 20px;
+  padding-right: 0px;
   overflow: scroll;
   min-width: 200px;
   width: 20vw;
-  margin-right: 30px;
+  /* margin-right: 30px; */
 }
 
 .sidebar-item {
   margin-bottom: 10px;
   border-bottom: 1px solid #ccc;
   padding-bottom: 10px;
+}
+
+.sidebar-item h3 {
+  margin-bottom: 15px;
 }
 
 .content {
@@ -96,6 +156,9 @@
   height: 60vh;
   padding: 20px;
 }
+
+/* Age filter */
+.age-filter {}
 
 /* Pagination Bar */
 
@@ -129,4 +192,30 @@
 
 .ellipsis {
   padding: 10px;
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    flex-direction: column;
+  }
+
+  .content {
+    margin-left: 0;
+  }
+
+  .sidebar {
+    position: static;
+    min-width: auto;
+    width: 100%;
+    margin-top: 10px;
+    padding: 0;
+  }
+
+  .breed-filter {
+    display: inline-block;
+    overflow: scroll;
+    height: 30vh;
+    width: 100%;
+    padding: 20px;
+  }
 }

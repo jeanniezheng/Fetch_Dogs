@@ -20,6 +20,7 @@ const App = () => {
   const [zipCodeFilter, setZipCodeFilter] = useState('');
   const [minAgeFilter, setMinAgeFilter] = useState(0);
   const [maxAgeFilter, setMaxAgeFilter] = useState(20);
+  const [heartedDogs, setHeartedDogs] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [sort, setSort] = useState('asc');
@@ -31,7 +32,7 @@ const App = () => {
     if (isAuthenticated) {
       fetchDogs();
     }
-  }, [isAuthenticated, currentPage, breedFilter, zipCodeFilter, minAgeFilter, maxAgeFilter, sort]);
+  }, [isAuthenticated, currentPage, breedFilter, zipCodeFilter, minAgeFilter, maxAgeFilter, heartedDogs, sort]);
 
   const handleLogin = async (name, email) => {
     try {
@@ -46,6 +47,30 @@ const App = () => {
     } catch (error) {
       console.error('Failed to login:', error);
     }
+  };
+
+  const buildFetchDogsURL = () => {
+    let url = `${API_BASE_URL}/dogs/search?size=${DOGS_PER_PAGE}&from=${currentPage}`;
+
+    if (breedFilter && breedFilter.length > 0) {
+      const breedQueryString = breedFilter.map(breed => `breeds=${breed}`).join('&');
+      url += `&${breedQueryString}`;
+    }
+
+    if (zipCodeFilter) {
+      url += `&zipCodes=${zipCodeFilter}`;
+    }
+
+    if (minAgeFilter) {
+      url += `&ageMin=${minAgeFilter}`;
+    }
+
+    if (maxAgeFilter) {
+      url += `&ageMax=${maxAgeFilter}`;
+    }
+
+    url += `&sort=${sortField}:${sort}`;
+    return url;
   };
 
   const fetchDogs = async () => {
@@ -95,29 +120,15 @@ const App = () => {
     }
   };
 
-  const buildFetchDogsURL = () => {
-    let url = `${API_BASE_URL}/dogs/search?size=${DOGS_PER_PAGE}&from=${currentPage}`;
-
-    if (breedFilter && breedFilter.length > 0) {
-      const breedQueryString = breedFilter.map(breed => `breeds=${breed}`).join('&');
-      url += `&${breedQueryString}`;
+  const handleHeartClick = (dogId) => {
+    if (heartedDogs.includes(dogId)) {
+      setHeartedDogs((prevHeartedDogs) => prevHeartedDogs.filter((id) => id !== dogId));
+    } else {
+      setHeartedDogs((prevHeartedDogs) => [...prevHeartedDogs, dogId]);
     }
-
-    if (zipCodeFilter) {
-      url += `&zipCodes=${zipCodeFilter}`;
-    }
-
-    if (minAgeFilter) {
-      url += `&ageMin=${minAgeFilter}`;
-    }
-
-    if (maxAgeFilter) {
-      url += `&ageMax=${maxAgeFilter}`;
-    }
-
-    url += `&sort=${sortField}:${sort}`;
-    return url;
   };
+
+
 
   const handleNextClick = () => {
     setCurrentPage((prevPage) => prevPage + DOGS_PER_PAGE);
@@ -151,8 +162,7 @@ const App = () => {
               handleMinAgeChange={handleMinAgeChange}
             />
           </div>
-          <DogDisplay dogs={dogs} />
-          <div className="page-bar">
+          <DogDisplay dogs={dogs} handleHeartClick={handleHeartClick} heartedDogs={heartedDogs} />          <div className="page-bar">
             <BackButton fetchDogs={fetchDogs} handleClick={handleBackClick} />
             <PaginationBar
               totalPages={totalPages}
