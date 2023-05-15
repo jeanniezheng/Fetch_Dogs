@@ -1,38 +1,38 @@
-.App {
-  text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Kanit&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+* {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.dog-card-container {
+  /* background-image: url('https://i.pinimg.com/736x/ea/6f/77/ea6f77061e5940b381f122098f81e588.jpg'); */
+  background-color: rgb(255, 255, 255);
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-wrap: wrap;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.dog-card img {
+  height: 250px;
+  width: 250px;
+  /* border-radius: 20px; */
+  border-radius: 50%;
+  /* transform-origin: 0 0; */
+  transition: all 0.35s ease;
+  /* transition: transform .10s, visibility .10s ease-in; */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Quick-zoom Container */
+
+/* The Transformation */
+.dog-card:hover img {
+  transform: scale(1.1);
+}
+
+.dog-card-title {
+  margin: 0;
+  display: flex;
 }
