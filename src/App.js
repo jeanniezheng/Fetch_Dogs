@@ -4,6 +4,7 @@ import LoginForm from './LoginForm';
 import DogDisplay from './DogDisplay';
 import NextButton from './NextButton';
 import BackButton from './BackButton';
+import PaginationBar from './PaginationBar';
 import './App.css';
 
 const App = () => {
@@ -14,6 +15,8 @@ const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [dogs, setDogs] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -50,6 +53,7 @@ const App = () => {
       const fetchedDogs = response.data;
       setDogs(fetchedDogs);
       console.log('URL:', url);
+      setTotalPages(Math.ceil(total / DOGS_PER_PAGE));
     } catch (error) {
       console.error('Failed to fetch dogs:', error);
     }
@@ -73,7 +77,10 @@ const App = () => {
     console.log(currentPage)
 
   };
-
+  const handlePaginationBarClick = (index) => {
+    setCurrentPage(index)
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   return (
     <div className="app-container">
@@ -83,6 +90,11 @@ const App = () => {
         <div className="content">
           <DogDisplay dogs={dogs} />
           <BackButton fetchDogs={fetchDogs} handleClick={handleBackClick} />
+          <PaginationBar
+            totalPages={totalPages}
+            currentPage={currentPage}
+            handleClick={handlePaginationBarClick}
+          />
           <NextButton fetchDogs={fetchDogs} handleClick={handleNextClick} />
         </div>
       )}
