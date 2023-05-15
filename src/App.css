@@ -6,6 +6,21 @@
   font-family: 'Roboto', sans-serif;
 }
 
+.app-container {
+  display: flex;
+}
+
+.dog-card-name {
+  margin-right: 10px;
+}
+
+.dog-card {
+  margin: 10px;
+  background-color: #e1ccad;
+  background-color: #a6aea9;
+  border-radius: 20px;
+  padding: 20px;
+}
 
 .dog-card-container {
   /* background-image: url('https://i.pinimg.com/736x/ea/6f/77/ea6f77061e5940b381f122098f81e588.jpg'); */
@@ -25,7 +40,6 @@
   /* transition: transform .10s, visibility .10s ease-in; */
 }
 
-/* Quick-zoom Container */
 
 /* The Transformation */
 .dog-card:hover img {
@@ -35,4 +49,19 @@
 .dog-card-title {
   margin: 0;
   display: flex;
+}
+
+img {}
+
+.img-wrapper {
+  height: 250px;
+  width: 250px;
+  border-radius: 50%;
+  overflow: hidden;
+  /* hide the overflow */
+}
+
+.img-wrapper img {
+  transition: all .25s ease;
+  vertical-align: middle;
 }

@@ -63,12 +63,15 @@ const App = () => {
 
   const handleNextClick = () => {
     setCurrentPage((prevPage) => prevPage + DOGS_PER_PAGE);
+    console.log(currentPage)
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleBackClick = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - DOGS_PER_PAGE, 0));
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    console.log(currentPage)
+
   };
 
 
