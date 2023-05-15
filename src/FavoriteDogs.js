@@ -4,7 +4,7 @@ const FavoriteDogs = ({ handleFavoriteDogsClick, onFavoriteDogsSection }) => {
 
     let text = onFavoriteDogsSection ? "Show All Dogs" : "Favorite Dogs"
     return (
-        <button onClick={handleFavoriteDogsClick}>{text}</button>
+        <button className='favorite-dogs-button' onClick={handleFavoriteDogsClick}>{text}</button>
     );
 };
 

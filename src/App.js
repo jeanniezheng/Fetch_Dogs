@@ -6,6 +6,7 @@ import NextButton from './NextButton';
 import BackButton from './BackButton';
 import PaginationBar from './PaginationBar';
 import SideBar from './SideBar';
+import GenerateMatchButton from './GenerateMatchButton';
 
 import './App.css';
 
@@ -26,6 +27,7 @@ const App = () => {
   const [sort, setSort] = useState('asc');
   const [sortField, setSortField] = useState('breed');
   const [onFavoriteDogsSection, setOnFavoriteDogsSection] = useState(false)
+  const [onMatchedSection, setOnMatchedSection] = useState(false)
 
 
 
@@ -168,6 +170,9 @@ const App = () => {
       fetchDogs()
       setOnFavoriteDogsSection(!onFavoriteDogsSection)
     }
+
+    setOnMatchedSection(false)
+
   }
 
   const handleGenerateMatchClick = async () => {
@@ -186,8 +191,11 @@ const App = () => {
       let results = matchedDog.data
       console.log('RESULTS ' + JSON.stringify(results))
 
+      let total = fetchedDogs.length;
+      setTotalPages(Math.ceil(total / DOGS_PER_PAGE));
 
       setDogs(results)
+      setOnMatchedSection(true)
       console.log('Doggy' + JSON.stringify(matchedDog.data))
     } catch (error) {
       console.log('unable to fetch dogs ' + error)
@@ -218,11 +226,15 @@ const App = () => {
         <LoginForm onLogin={handleLogin} />
       ) : (
         <div className="content">
-          {onFavoriteDogsSection ?
-            <div>
-              <h1 className='greetings'>Favorite Doggos!</h1>
-            </div> :
-            <h1 className='greetings'>Hi there {user.name}! Welcome to Doggy Land</h1>
+          {onMatchedSection ? <div>
+            <h1 className='greetings'>YOU'VE GOT A MATCH!</h1>
+          </div>
+            : onFavoriteDogsSection ?
+              <div className='greetings'>
+                <h1>Favorite Doggos!</h1>
+                <GenerateMatchButton handleGenerateMatchClick={handleGenerateMatchClick} />
+              </div> :
+              <h1 className='greetings'>Hi there {user.name}! Welcome to Doggy Land</h1>
 
           }
           <div className="sidebar">
@@ -255,4 +267,3 @@ const App = () => {
 };
 
 export default App;
-

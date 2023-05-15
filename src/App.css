@@ -11,6 +11,10 @@
 }
 
 /* Dog display */
+.greetings {
+  /* display: flex; */
+  text-align: center;
+}
 
 .dog-card-name {
   margin-right: 10px;
@@ -29,6 +33,7 @@
   flex-wrap: wrap;
   justify-content: center;
   margin-left: 50px;
+  max-width: 80vw;
 }
 
 .dog-card img {
@@ -138,10 +143,24 @@
   margin-bottom: 10px;
   border-bottom: 1px solid #ccc;
   padding-bottom: 10px;
+  width: 80%;
 }
+
 
 .sidebar-item h3 {
   margin-bottom: 15px;
+}
+
+.favorite-dogs-button,
+.generate-dogs-button {
+  height: 70px;
+  width: 150px;
+  border-radius: 20px;
+  border-width: 1px;
+  font-size: 25px;
+  background-color: rgba(175, 196, 182, 1);
+  padding: 5px;
+  margin-bottom: 5px;
 }
 
 .content {
@@ -149,6 +168,8 @@
   margin-left: 200px;
   z-index: 5;
 }
+
+
 
 /* Breed filter */
 .breed-filter {
@@ -206,10 +227,16 @@
 
   .sidebar {
     position: static;
+
     min-width: auto;
     width: 100%;
     margin-top: 10px;
     padding: 0;
+    text-align: center;
+  }
+
+  .sidebar-item {
+    width: 100%;
   }
 
   .breed-filter {
@@ -218,5 +245,9 @@
     height: 30vh;
     width: 100%;
     padding: 20px;
+  }
+
+  .greetings {
+    display: none;
   }
 }

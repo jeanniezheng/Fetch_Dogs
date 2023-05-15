@@ -4,7 +4,7 @@ import ZipcodeFilter from './ZipcodeFilter';
 import AgeFilter from './AgeFilter';
 import FavoriteDogs from './FavoriteDogs';
 import SortBox from './SortBox';
-import GenerateMatch from './GenerateMatch';
+import GenerateMatchButton from './GenerateMatchButton';
 
 
 const SideBar = ({ dogs, handleBreedChange, handleZipCodeChange, handleMaxAgeChange, handleMinAgeChange, handleFavoriteDogsClick, onFavoriteDogsSection, handleGenerateMatchClick, handleSort }) => {
@@ -31,7 +31,7 @@ const SideBar = ({ dogs, handleBreedChange, handleZipCodeChange, handleMaxAgeCha
             </div>
 
             <FavoriteDogs handleFavoriteDogsClick={handleFavoriteDogsClick} onFavoriteDogsSection={onFavoriteDogsSection} />
-            <GenerateMatch handleGenerateMatchClick={handleGenerateMatchClick} />
+            <GenerateMatchButton handleGenerateMatchClick={handleGenerateMatchClick} />
         </>
     );
 };
