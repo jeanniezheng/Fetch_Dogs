@@ -3,16 +3,17 @@ import BreedFiltering from './BreedFiltering';
 import ZipcodeFilter from './ZipcodeFilter';
 import AgeFilter from './AgeFilter';
 import FavoriteDogs from './FavoriteDogs';
+import SortBox from './SortBox';
 
 
 
-const SideBar = ({ dogs, handleBreedChange, handleZipCodeChange, handleMaxAgeChange, handleMinAgeChange, handleFavoriteDogsClick, onFavoriteDogsSection }) => {
+const SideBar = ({ dogs, handleBreedChange, handleZipCodeChange, handleMaxAgeChange, handleMinAgeChange, handleFavoriteDogsClick, onFavoriteDogsSection, handleSort }) => {
 
     return (
         <>
             <div className="sidebar-item">
-
                 <h3>Sort</h3>
+                <SortBox handleSort={handleSort} />
             </div>
 
             <div className="sidebar-item">

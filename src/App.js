@@ -100,6 +100,14 @@ const App = () => {
     }
   };
 
+  const handleSort = (event) => {
+    const selectedSortOption = event.target.value;
+
+    const [sortField, sortDirection] = selectedSortOption.split('-');
+    setSortField(sortField);
+    setSort(sortDirection);
+  };
+
   const handleBreedChange = (value) => {
     setBreedFilter(value);
     // setCurrentPage(0);
@@ -198,6 +206,8 @@ const App = () => {
               handleMinAgeChange={handleMinAgeChange}
               handleFavoriteDogsClick={handleFavoriteDogsClick}
               onFavoriteDogsSection={onFavoriteDogsSection}
+              handleSort={handleSort}
+
             />
           </div>
           <DogDisplay dogs={dogs} handleHeartClick={handleHeartClick} heartedDogs={heartedDogs} />          <div className="page-bar">
