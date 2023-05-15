@@ -18,6 +18,8 @@ const App = () => {
   const [dogs, setDogs] = useState([]);
   const [breedFilter, setBreedFilter] = useState('');
   const [zipCodeFilter, setZipCodeFilter] = useState('');
+  const [minAgeFilter, setMinAgeFilter] = useState(0);
+  const [maxAgeFilter, setMaxAgeFilter] = useState(20);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [sort, setSort] = useState('asc');
@@ -29,7 +31,7 @@ const App = () => {
     if (isAuthenticated) {
       fetchDogs();
     }
-  }, [isAuthenticated, currentPage, breedFilter, zipCodeFilter, sort]);
+  }, [isAuthenticated, currentPage, breedFilter, zipCodeFilter, minAgeFilter, maxAgeFilter, sort]);
 
   const handleLogin = async (name, email) => {
     try {
@@ -79,13 +81,19 @@ const App = () => {
     }
   };
 
-  const handleMaxAgeChange = (value) => {
-
-  }
-
   const handleMinAgeChange = (value) => {
+    if (value !== minAgeFilter) {
+      setMinAgeFilter(value);
+      setCurrentPage(0);
+    }
+  };
 
-  }
+  const handleMaxAgeChange = (value) => {
+    if (value !== maxAgeFilter) {
+      setMaxAgeFilter(value);
+      setCurrentPage(0);
+    }
+  };
 
   const buildFetchDogsURL = () => {
     let url = `${API_BASE_URL}/dogs/search?size=${DOGS_PER_PAGE}&from=${currentPage}`;
@@ -95,9 +103,16 @@ const App = () => {
       url += `&${breedQueryString}`;
     }
 
-
     if (zipCodeFilter) {
       url += `&zipCodes=${zipCodeFilter}`;
+    }
+
+    if (minAgeFilter) {
+      url += `&ageMin=${minAgeFilter}`;
+    }
+
+    if (maxAgeFilter) {
+      url += `&ageMax=${maxAgeFilter}`;
     }
 
     url += `&sort=${sortField}:${sort}`;
