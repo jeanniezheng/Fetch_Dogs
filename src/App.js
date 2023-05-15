@@ -17,6 +17,7 @@ const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [dogs, setDogs] = useState([]);
   const [breedFilter, setBreedFilter] = useState('');
+  const [zipCodeFilter, setZipCodeFilter] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [sort, setSort] = useState('asc');
@@ -28,7 +29,7 @@ const App = () => {
     if (isAuthenticated) {
       fetchDogs();
     }
-  }, [isAuthenticated, currentPage, breedFilter, sort]);
+  }, [isAuthenticated, currentPage, breedFilter, zipCodeFilter, sort]);
 
   const handleLogin = async (name, email) => {
     try {
@@ -72,8 +73,11 @@ const App = () => {
   };
 
   const handleZipCodeChange = (value) => {
-
-  }
+    if (value !== zipCodeFilter) {
+      setZipCodeFilter(value);
+      setCurrentPage(0);
+    }
+  };
 
   const buildFetchDogsURL = () => {
     let url = `${API_BASE_URL}/dogs/search?size=${DOGS_PER_PAGE}&from=${currentPage}`;
@@ -82,6 +86,12 @@ const App = () => {
       const breedQueryString = breedFilter.map(breed => `breeds=${breed}`).join('&');
       url += `&${breedQueryString}`;
     }
+
+
+    if (zipCodeFilter) {
+      url += `&zipCodes=${zipCodeFilter}`;
+    }
+
     url += `&sort=${sortField}:${sort}`;
     return url;
   };
