@@ -1,6 +1,6 @@
 import React from 'react';
 
-const PaginationBar = ({ totalPages, currentPage, handleClick }) => {
+const PaginationBar = ({ totalPages, currentPage, handlePaginationBarClick }) => {
     const visiblePages = 5; // Number of visible page numbers
     const currentPageIndex = Math.floor(currentPage / visiblePages);
 
@@ -24,7 +24,7 @@ const PaginationBar = ({ totalPages, currentPage, handleClick }) => {
             <button
                 key="first"
                 className="pagination-button"
-                onClick={() => handleClick(0)}
+                onClick={() => handlePaginationBarClick(0)}
             >
                 1
             </button>
@@ -43,7 +43,7 @@ const PaginationBar = ({ totalPages, currentPage, handleClick }) => {
             <button
                 key={pageIndex}
                 className={`pagination-button ${currentPage === pageIndex ? 'active' : ''}`}
-                onClick={() => handleClick(pageIndex)}
+                onClick={() => handlePaginationBarClick(pageIndex)}
             >
                 {pageNumber}
             </button>
@@ -59,7 +59,7 @@ const PaginationBar = ({ totalPages, currentPage, handleClick }) => {
             <button
                 key="last"
                 className="pagination-button"
-                onClick={() => handleClick((totalPages - 1) * visiblePages)}
+                onClick={() => handlePaginationBarClick((totalPages - 1) * visiblePages)}
             >
                 {totalPages}
             </button>

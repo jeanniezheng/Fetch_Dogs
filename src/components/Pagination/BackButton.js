@@ -1,8 +1,8 @@
 import { React } from 'react';
 
-const BackButton = ({ handleClick }) => {
+const BackButton = ({ handleBackClick }) => {
     return (
-        <button className='back-button' onClick={handleClick}>
+        <button className='back-button' onClick={handleBackClick}>
             Previous</button>
     )
 }

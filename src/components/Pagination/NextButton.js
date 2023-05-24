@@ -1,8 +1,8 @@
 import { React } from 'react';
 
-const NextButton = ({ handleClick }) => {
+const NextButton = ({ handleNextClick }) => {
     return (
-        <button className='next-button' onClick={handleClick}>Next</button>
+        <button className='next-button' onClick={handleNextClick}>Next</button>
     )
 }
 

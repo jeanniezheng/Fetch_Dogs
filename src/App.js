@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import LoginForm from './components/Login/LoginForm';
+import Greetings from './components/DogDisplay/Greetings';
 import DogDisplay from './components/DogDisplay/DogDisplay';
 import NextButton from './components/Pagination/NextButton';
 import BackButton from './components/Pagination/BackButton';
 import PaginationBar from './components/Pagination/PaginationBar';
+import Pagination from './components/Pagination/Pagination';
 import SideBar from './components/SideBar/SideBar';
 import GenerateMatchButton from './components/SideBar/GenerateMatchButton';
 
@@ -13,11 +15,23 @@ import './styles/App.css';
 import { handleLogin } from './components/Login/utils/loginUtils';
 import { fetchDogs, buildFetchDogsURL } from './components/DogDisplay/utils/fetchUtils';
 import { handleSort } from './components/SideBar/utils/sortUtils';
-import { handleBreedChange, handleZipCodeChange, handleMinAgeChange, handleMaxAgeChange } from './components/SideBar/utils/filterHandlers';
+import {
+  handleBreedChange,
+  handleZipCodeChange,
+  handleMinAgeChange,
+  handleMaxAgeChange,
+} from './components/SideBar/utils/filterHandlers';
 import { handleHeartClick } from './components/DogDisplay/utils/heartUtils';
-import { fetchFavoriteDogs, handleFavoriteDogsClick } from './components/SideBar/utils/favoriteUtils';
+import {
+  fetchFavoriteDogs,
+  handleFavoriteDogsClick,
+} from './components/SideBar/utils/favoriteUtils';
 import { handleGenerateMatchClick } from './components/SideBar/utils/matchUtils';
-import { handleNextClick, handleBackClick, handlePaginationBarClick } from './components/Pagination/utils/paginationUtils';
+import {
+  handleNextClick,
+  handleBackClick,
+  handlePaginationBarClick,
+} from './components/Pagination/utils/paginationUtils';
 
 const DOGS_PER_PAGE = 20;
 
@@ -56,10 +70,9 @@ const App = () => {
         maxAgeFilter,
         sortField,
         sort,
-        onFavoriteDogsSection
+        onFavoriteDogsSection,
       });
     }
-
   }, [
     isAuthenticated,
     currentPage,
@@ -69,10 +82,8 @@ const App = () => {
     maxAgeFilter,
     heartedDogs,
     onFavoriteDogsSection,
-    sort
+    sort,
   ]);
-
-
 
   const handleLoginCallback = async (name, email) => {
     try {
@@ -96,23 +107,19 @@ const App = () => {
         <LoginForm onLogin={handleLoginCallback} />
       ) : (
         <div className="content">
-          {onMatchedSection ? (
-            <div>
-              <h1 className="greetings">YOU'VE GOT A MATCH!</h1>
-            </div>
-          ) : onFavoriteDogsSection ? (
-            <div className="greetings">
-              <h1>Favorite Doggos!</h1>
-              <GenerateMatchButton handleGenerateMatchClick={() => handleGenerateMatchClick(setTotalPages,
-                DOGS_PER_PAGE,
-                setDogs,
-                setOnMatchedSection,
-                heartedDogs)}
-              />
-            </div>
-          ) : (
-            <h1 className="greetings">Hi there {user.name}! Welcome to Doggy Land</h1>
-          )}
+          <Greetings
+            isAuthenticated={isAuthenticated}
+            handleLoginCallback={handleLoginCallback}
+            onMatchedSection={onMatchedSection}
+            handleGenerateMatchClick={handleGenerateMatchClick}
+            DOGS_PER_PAGE={DOGS_PER_PAGE}
+            onFavoriteDogsSection={onFavoriteDogsSection}
+            setTotalPages={setTotalPages}
+            setDogs={setDogs}
+            setOnMatchedSection={setOnMatchedSection}
+            heartedDogs={heartedDogs}
+            user={user}
+          />
 
           <div className="sidebar">
             <SideBar
@@ -123,24 +130,32 @@ const App = () => {
               handleZipCodeChange={handleZipCodeChange(
                 setZipCodeFilter,
                 zipCodeFilter,
-                setCurrentPage)}
-              handleMaxAgeChange={handleMaxAgeChange(setMaxAgeFilter,
-                maxAgeFilter,
-                setCurrentPage)}
-              handleMinAgeChange={handleMinAgeChange(setMinAgeFilter,
-                minAgeFilter,
-                setCurrentPage)}
-              handleFavoriteDogsClick={() => handleFavoriteDogsClick(onFavoriteDogsSection, setOnFavoriteDogsSection, heartedDogs, setDogs, setTotalPages, DOGS_PER_PAGE, setOnMatchedSection
+                setCurrentPage
               )}
-
+              handleMaxAgeChange={handleMaxAgeChange(setMaxAgeFilter, maxAgeFilter, setCurrentPage)}
+              handleMinAgeChange={handleMinAgeChange(setMinAgeFilter, minAgeFilter, setCurrentPage)}
+              handleFavoriteDogsClick={() =>
+                handleFavoriteDogsClick(
+                  onFavoriteDogsSection,
+                  setOnFavoriteDogsSection,
+                  heartedDogs,
+                  setDogs,
+                  setTotalPages,
+                  DOGS_PER_PAGE,
+                  setOnMatchedSection
+                )
+              }
               onFavoriteDogsSection={onFavoriteDogsSection}
               handleSort={(event) => handleSort(event, setSortField, setSort)}
-
-              handleGenerateMatchClick={() => handleGenerateMatchClick(setTotalPages,
-                DOGS_PER_PAGE,
-                setDogs,
-                setOnMatchedSection,
-                heartedDogs)}
+              handleGenerateMatchClick={() =>
+                handleGenerateMatchClick(
+                  setTotalPages,
+                  DOGS_PER_PAGE,
+                  setDogs,
+                  setOnMatchedSection,
+                  heartedDogs
+                )
+              }
             />
           </div>
 
@@ -149,20 +164,18 @@ const App = () => {
             handleHeartClick={(dogId) => handleHeartClick(dogId, heartedDogs, setHeartedDogs)}
             heartedDogs={heartedDogs}
           />
-          <div className="page-bar">
-            <BackButton
-              fetchDogs={fetchDogs}
-              handleClick={() => handleBackClick(setCurrentPage, DOGS_PER_PAGE)} />
 
-            <PaginationBar
+          <div className="page-bar">
+            <Pagination
+              fetchDogs={fetchDogs}
+              handleBackClick={() => handleBackClick(setCurrentPage, DOGS_PER_PAGE)}
               totalPages={totalPages}
               currentPage={currentPage}
-              handleClick={(page) => handlePaginationBarClick(setCurrentPage,
-                DOGS_PER_PAGE, currentPage)} />
-
-            <NextButton
-              fetchDogs={fetchDogs}
-              handleClick={() => handleNextClick(setCurrentPage, DOGS_PER_PAGE)} />
+              handlePaginationBarClick={(page) =>
+                handlePaginationBarClick(setCurrentPage, DOGS_PER_PAGE, currentPage)
+              }
+              handleNextClick={() => handleNextClick(setCurrentPage, DOGS_PER_PAGE)}
+            />
           </div>
         </div>
       )}
