@@ -22,6 +22,7 @@ const BreedFiltering = ({ dogs, handleBreedChange }) => {
     }, []);
 
     useEffect(() => {
+        console.log('SELECTED ' + selectedBreeds)
         handleBreedChange(selectedBreeds);
     }, [selectedBreeds]);
 

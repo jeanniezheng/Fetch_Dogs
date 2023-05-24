@@ -1,19 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import LoginForm from './LoginForm';
-import DogDisplay from './DogDisplay';
-import NextButton from './NextButton';
-import BackButton from './BackButton';
-import PaginationBar from './PaginationBar';
-import SideBar from './SideBar';
-import GenerateMatchButton from './GenerateMatchButton';
+import LoginForm from './components/Login/LoginForm';
+import DogDisplay from './components/DogDisplay/DogDisplay';
+import NextButton from './components/Pagination/NextButton';
+import BackButton from './components/Pagination/BackButton';
+import PaginationBar from './components/Pagination/PaginationBar';
+import SideBar from './components/SideBar/SideBar';
+import GenerateMatchButton from './components/SideBar/GenerateMatchButton';
 
-import './App.css';
+import './styles/App.css';
+
+import { handleLogin } from './components/Login/utils/loginUtils';
+import { fetchDogs, buildFetchDogsURL } from './components/DogDisplay/utils/fetchUtils';
+import { handleSort } from './components/SideBar/utils/sortUtils';
+import { handleBreedChange, handleZipCodeChange, handleMinAgeChange, handleMaxAgeChange } from './components/SideBar/utils/filterHandlers';
+import { handleHeartClick } from './components/DogDisplay/utils/heartUtils';
+import { fetchFavoriteDogs, handleFavoriteDogsClick } from './components/SideBar/utils/favoriteUtils';
+import { handleGenerateMatchClick } from './components/SideBar/utils/matchUtils';
+import { handleNextClick, handleBackClick, handlePaginationBarClick } from './components/Pagination/utils/paginationUtils';
+
+const DOGS_PER_PAGE = 20;
 
 const App = () => {
-  const API_BASE_URL = 'https://frontend-take-home-service.fetch.com';
-  const DOGS_PER_PAGE = 20;
-
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [dogs, setDogs] = useState([]);
@@ -26,239 +34,135 @@ const App = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [sort, setSort] = useState('asc');
   const [sortField, setSortField] = useState('breed');
-  const [onFavoriteDogsSection, setOnFavoriteDogsSection] = useState(false)
-  const [onMatchedSection, setOnMatchedSection] = useState(false)
-
-
+  const [filters, setFilters] = useState({
+    breedFilter: '',
+    zipCodeFilter: '',
+    minAgeFilter: 0,
+    maxAgeFilter: 20,
+  });
+  const [onFavoriteDogsSection, setOnFavoriteDogsSection] = useState(false);
+  const [onMatchedSection, setOnMatchedSection] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated) {
-      fetchDogs();
+      fetchDogs({
+        setDogs,
+        setTotalPages,
+        DOGS_PER_PAGE,
+        currentPage,
+        breedFilter,
+        zipCodeFilter,
+        minAgeFilter,
+        maxAgeFilter,
+        sortField,
+        sort,
+        onFavoriteDogsSection
+      });
     }
-    console.log('DOGS' + JSON.stringify(dogs))
-    console.log(heartedDogs)
-    console.log(onFavoriteDogsSection)
-  }, [isAuthenticated, currentPage, breedFilter, zipCodeFilter, minAgeFilter, maxAgeFilter, heartedDogs, onFavoriteDogsSection, sort]);
 
-  const handleLogin = async (name, email) => {
+  }, [
+    isAuthenticated,
+    currentPage,
+    breedFilter,
+    zipCodeFilter,
+    minAgeFilter,
+    maxAgeFilter,
+    heartedDogs,
+    onFavoriteDogsSection,
+    sort
+  ]);
+
+
+
+  const handleLoginCallback = async (name, email) => {
     try {
-      const response = await axios.post(
-        `${API_BASE_URL}/auth/login`,
-        { name, email },
-        { withCredentials: true }
-      );
-
-      setUser({ name, email });
-      setIsAuthenticated(true);
+      await handleLogin(name, email, setUser, setIsAuthenticated);
     } catch (error) {
       console.error('Failed to login:', error);
     }
   };
 
-  const buildFetchDogsURL = () => {
-    let url = `${API_BASE_URL}/dogs/search?size=${DOGS_PER_PAGE}&from=${currentPage}`;
-
-    if (breedFilter && breedFilter.length > 0) {
-      const breedQueryString = breedFilter.map(breed => `breeds=${breed}`).join('&');
-      url += `&${breedQueryString}`;
-    }
-
-    if (zipCodeFilter) {
-      url += `&zipCodes=${zipCodeFilter}`;
-    }
-
-    if (minAgeFilter) {
-      url += `&ageMin=${minAgeFilter}`;
-    }
-
-    if (maxAgeFilter) {
-      url += `&ageMax=${maxAgeFilter}`;
-    }
-
-    url += `&sort=${sortField}:${sort}`;
-    return url;
+  const handleFilterChangeCallback = (field, value) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [field]: value,
+    }));
+    setCurrentPage(0);
   };
-
-  const fetchDogs = async () => {
-    try {
-      if (!onFavoriteDogsSection) {
-
-        const url = buildFetchDogsURL();
-
-        const idResponse = await axios.get(url, { withCredentials: true });
-        const { resultIds, total } = idResponse.data;
-
-        const response = await axios.post(`${API_BASE_URL}/dogs`, resultIds, {
-          withCredentials: true,
-        });
-
-        const fetchedDogs = response.data;
-        setDogs(fetchedDogs);
-        console.log('URL:', url);
-        setTotalPages(Math.ceil(total / DOGS_PER_PAGE));
-      } else {
-        fetchFavoriteDogs()
-      }
-    } catch (error) {
-      console.error('Failed to fetch dogs:', error);
-    }
-  };
-
-  const handleSort = (event) => {
-    const selectedSortOption = event.target.value;
-
-    const [sortField, sortDirection] = selectedSortOption.split('-');
-    setSortField(sortField);
-    setSort(sortDirection);
-  };
-
-  const handleBreedChange = (value) => {
-    setBreedFilter(value);
-    // setCurrentPage(0);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleZipCodeChange = (value) => {
-    if (value !== zipCodeFilter) {
-      setZipCodeFilter(value);
-      setCurrentPage(0);
-    }
-  };
-
-  const handleMinAgeChange = (value) => {
-    if (value !== minAgeFilter) {
-      setMinAgeFilter(value);
-      setCurrentPage(0);
-    }
-  };
-
-  const handleMaxAgeChange = (value) => {
-    if (value !== maxAgeFilter) {
-      setMaxAgeFilter(value);
-      setCurrentPage(0);
-    }
-  };
-
-  const handleHeartClick = (dogId) => {
-    if (heartedDogs.includes(dogId)) {
-      setHeartedDogs((prevHeartedDogs) => prevHeartedDogs.filter((id) => id !== dogId));
-    } else {
-      setHeartedDogs((prevHeartedDogs) => [...prevHeartedDogs, dogId]);
-    }
-  };
-
-  const fetchFavoriteDogs = async () => {
-    try {
-      const response = await axios.post(`${API_BASE_URL}/dogs`, heartedDogs, {
-        withCredentials: true,
-      });
-      const fetchedDogs = response.data;
-      setDogs(fetchedDogs);
-      let total = fetchedDogs.length;
-      setTotalPages(Math.ceil(total / DOGS_PER_PAGE));
-    } catch (error) {
-      console.log('unable to fetch dogs ' + error)
-    }
-  }
-
-  const handleFavoriteDogsClick = () => {
-    if (!onFavoriteDogsSection) {
-      fetchFavoriteDogs()
-      setOnFavoriteDogsSection(!onFavoriteDogsSection)
-
-    } else {
-      fetchDogs()
-      setOnFavoriteDogsSection(!onFavoriteDogsSection)
-    }
-
-    setOnMatchedSection(false)
-
-  }
-
-  const handleGenerateMatchClick = async () => {
-    try {
-      const response = await axios.post(`${API_BASE_URL}/dogs/match`, heartedDogs, {
-        withCredentials: true,
-      });
-      const fetchedDogs = response.data.match;
-      console.log('MATCHED ID ' + fetchedDogs)
-
-
-      const matchedDog = await axios.post(`${API_BASE_URL}/dogs`, [fetchedDogs], {
-        withCredentials: true,
-      });
-
-      let results = matchedDog.data
-      console.log('RESULTS ' + JSON.stringify(results))
-
-      let total = fetchedDogs.length;
-      setTotalPages(Math.ceil(total / DOGS_PER_PAGE));
-
-      setDogs(results)
-      setOnMatchedSection(true)
-      console.log('Doggy' + JSON.stringify(matchedDog.data))
-    } catch (error) {
-      console.log('unable to fetch dogs ' + error)
-    }
-  }
-
-
-  const handleNextClick = () => {
-    setCurrentPage((prevPage) => prevPage + DOGS_PER_PAGE);
-    console.log(currentPage)
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleBackClick = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - DOGS_PER_PAGE, 0));
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    console.log(currentPage)
-
-  };
-  const handlePaginationBarClick = (index) => {
-    setCurrentPage(index)
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
 
   return (
     <div className="app-container">
       {!isAuthenticated ? (
-        <LoginForm onLogin={handleLogin} />
+        <LoginForm onLogin={handleLoginCallback} />
       ) : (
         <div className="content">
-          {onMatchedSection ? <div>
-            <h1 className='greetings'>YOU'VE GOT A MATCH!</h1>
-          </div>
-            : onFavoriteDogsSection ?
-              <div className='greetings'>
-                <h1>Favorite Doggos!</h1>
-                <GenerateMatchButton handleGenerateMatchClick={handleGenerateMatchClick} />
-              </div> :
-              <h1 className='greetings'>Hi there {user.name}! Welcome to Doggy Land</h1>
+          {onMatchedSection ? (
+            <div>
+              <h1 className="greetings">YOU'VE GOT A MATCH!</h1>
+            </div>
+          ) : onFavoriteDogsSection ? (
+            <div className="greetings">
+              <h1>Favorite Doggos!</h1>
+              <GenerateMatchButton handleGenerateMatchClick={() => handleGenerateMatchClick(setTotalPages,
+                DOGS_PER_PAGE,
+                setDogs,
+                setOnMatchedSection,
+                heartedDogs)}
+              />
+            </div>
+          ) : (
+            <h1 className="greetings">Hi there {user.name}! Welcome to Doggy Land</h1>
+          )}
 
-          }
           <div className="sidebar">
             <SideBar
               dogs={dogs}
-              handleBreedChange={handleBreedChange}
-              handleZipCodeChange={handleZipCodeChange}
-              handleMaxAgeChange={handleMaxAgeChange}
-              handleMinAgeChange={handleMinAgeChange}
-              handleFavoriteDogsClick={handleFavoriteDogsClick}
-              onFavoriteDogsSection={onFavoriteDogsSection}
-              handleSort={handleSort}
-              handleGenerateMatchClick={handleGenerateMatchClick}
+              filters={filters}
+              handleFilterChange={handleFilterChangeCallback}
+              handleBreedChange={handleBreedChange(setBreedFilter)}
+              handleZipCodeChange={handleZipCodeChange(
+                setZipCodeFilter,
+                zipCodeFilter,
+                setCurrentPage)}
+              handleMaxAgeChange={handleMaxAgeChange(setMaxAgeFilter,
+                maxAgeFilter,
+                setCurrentPage)}
+              handleMinAgeChange={handleMinAgeChange(setMinAgeFilter,
+                minAgeFilter,
+                setCurrentPage)}
+              handleFavoriteDogsClick={() => handleFavoriteDogsClick(onFavoriteDogsSection, setOnFavoriteDogsSection, heartedDogs, setDogs, setTotalPages, DOGS_PER_PAGE, setOnMatchedSection
+              )}
 
+              onFavoriteDogsSection={onFavoriteDogsSection}
+              handleSort={(event) => handleSort(event, setSortField, setSort)}
+
+              handleGenerateMatchClick={() => handleGenerateMatchClick(setTotalPages,
+                DOGS_PER_PAGE,
+                setDogs,
+                setOnMatchedSection,
+                heartedDogs)}
             />
           </div>
-          <DogDisplay dogs={dogs} handleHeartClick={handleHeartClick} heartedDogs={heartedDogs} />          <div className="page-bar">
-            <BackButton fetchDogs={fetchDogs} handleClick={handleBackClick} />
+
+          <DogDisplay
+            dogs={dogs}
+            handleHeartClick={(dogId) => handleHeartClick(dogId, heartedDogs, setHeartedDogs)}
+            heartedDogs={heartedDogs}
+          />
+          <div className="page-bar">
+            <BackButton
+              fetchDogs={fetchDogs}
+              handleClick={() => handleBackClick(setCurrentPage, DOGS_PER_PAGE)} />
+
             <PaginationBar
               totalPages={totalPages}
               currentPage={currentPage}
-              handleClick={handlePaginationBarClick}
-            />
-            <NextButton fetchDogs={fetchDogs} handleClick={handleNextClick} />
+              handleClick={(page) => handlePaginationBarClick(setCurrentPage,
+                DOGS_PER_PAGE, currentPage)} />
+
+            <NextButton
+              fetchDogs={fetchDogs}
+              handleClick={() => handleNextClick(setCurrentPage, DOGS_PER_PAGE)} />
           </div>
         </div>
       )}

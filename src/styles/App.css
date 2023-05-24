@@ -10,6 +10,17 @@
   display: flex;
 }
 
+/* button {
+  opacity: 0.5;
+} */
+
+button:hover {
+  border: 3px dotted rgb(255, 255, 255);
+  /* color: rgb(110, 135, 118); */
+  background: rgba(175, 196, 182, 0.6);
+  cursor: pointer;
+}
+
 /* Login Form */
 .login-form {
   width: 100%;
@@ -21,7 +32,6 @@
   background-color: #f5f5f5;
   border: 1px solid #ddd;
   border-radius: 5px;
-  background-image: url("./paw.png");
 }
 
 .login-form-wrapper {
@@ -89,10 +99,11 @@
   max-width: 80vw;
 }
 
+
 .dog-card img {
-  height: 250px;
-  width: 250px;
-  border-radius: 50%;
+  max-width: 100%;
+  height: auto;
+  /* border-radius: 50%; */
   transition: all 0.35s ease;
 }
 
@@ -109,13 +120,14 @@
 .img-wrapper {
   height: 250px;
   width: 250px;
-  border-radius: 50%;
+  border-radius: 20px;
   overflow: hidden;
-  /* hide the overflow */
 }
 
 .img-wrapper img {
-  transition: all .25s ease;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   vertical-align: middle;
 }
 
@@ -134,6 +146,13 @@
   width: 50px;
   /* height: 60px; */
   margin-top: 10px;
+}
+
+.heart:hover {
+  cursor: pointer;
+  -webkit-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  transform: scale(1.2);
 }
 
 .heart::before,
@@ -175,6 +194,7 @@
   transform-origin: 0 100%;
   background: rgb(237, 166, 166);
 }
+
 
 /* Side Bar */
 .sidebar {
@@ -235,9 +255,6 @@
   height: 50vh;
   /* padding: 20px; */
 }
-
-/* Age filter */
-.age-filter {}
 
 /* Pagination Bar */
 

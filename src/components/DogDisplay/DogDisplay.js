@@ -21,7 +21,6 @@ const DogDisplay = ({ dogs, handleHeartClick, heartedDogs }) => {
                                 </div>
                                 <div className='dog-card-details'>
                                     <h5>{dog.breed}</h5>
-                                    {/* <img src='./download.png' /> */}
                                     <h5>⟟ {dog.zip_code}</h5>
                                 </div>
                             </div>
