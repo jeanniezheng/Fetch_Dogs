@@ -1,7 +1,7 @@
-export const handleBreedChange = (setBreedFilter) => (value) => {
-    setBreedFilter(value);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-};
+// export const handleBreedChange = (setBreedFilter) => (value) => {
+//     setBreedFilter(value);
+//     window.scrollTo({ top: 0, behavior: 'smooth' });
+// };
 
 export const handleZipCodeChange = (
     setZipCodeFilter,

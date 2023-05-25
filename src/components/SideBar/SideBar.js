@@ -7,7 +7,7 @@ import SortBox from './SortBox';
 import GenerateMatchButton from './GenerateMatchButton';
 
 
-const SideBar = ({ dogs, handleBreedChange, handleZipCodeChange, handleMaxAgeChange, handleMinAgeChange, handleFavoriteDogsClick, onFavoriteDogsSection, handleGenerateMatchClick, handleSort }) => {
+const SideBar = ({ dogs, handleZipCodeChange, handleMaxAgeChange, handleMinAgeChange, handleFavoriteDogsClick, onFavoriteDogsSection, handleGenerateMatchClick, handleSort, filters, handleFilterChange }) => {
 
     return (
         <>
@@ -18,7 +18,7 @@ const SideBar = ({ dogs, handleBreedChange, handleZipCodeChange, handleMaxAgeCha
 
             <div className="sidebar-item">
                 <h3>Select Breed</h3>
-                <BreedFiltering dogs={dogs} handleBreedChange={handleBreedChange} />
+                <BreedFiltering dogs={dogs} filters={filters} handleFilterChange={handleFilterChange} />
             </div>
 
             <div className="sidebar-item">

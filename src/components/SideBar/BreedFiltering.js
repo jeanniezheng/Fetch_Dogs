@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const BreedFiltering = ({ dogs, handleBreedChange }) => {
+const BreedFiltering = ({ dogs, handleBreedChange, filters, handleFilterChange }) => {
     const [dogBreeds, setDogBreeds] = useState([]);
     const [dogsAvailable, setDogsAvailable] = useState({});
     const [selectedBreeds, setSelectedBreeds] = useState([]);
@@ -23,7 +23,8 @@ const BreedFiltering = ({ dogs, handleBreedChange }) => {
 
     useEffect(() => {
         console.log('SELECTED ' + selectedBreeds)
-        handleBreedChange(selectedBreeds);
+        // handleBreedChange(selectedBreeds);
+        handleFilterChange('breedFilter', selectedBreeds)
     }, [selectedBreeds]);
 
     const fetchDogBreeds = async () => {

@@ -22,16 +22,9 @@ import {
   handleMaxAgeChange,
 } from './components/SideBar/utils/filterHandlers';
 import { handleHeartClick } from './components/DogDisplay/utils/heartUtils';
-import {
-  fetchFavoriteDogs,
-  handleFavoriteDogsClick,
-} from './components/SideBar/utils/favoriteUtils';
+import { fetchFavoriteDogs, handleFavoriteDogsClick } from './components/SideBar/utils/favoriteUtils';
 import { handleGenerateMatchClick } from './components/SideBar/utils/matchUtils';
-import {
-  handleNextClick,
-  handleBackClick,
-  handlePaginationBarClick,
-} from './components/Pagination/utils/paginationUtils';
+import { handleNextClick, handleBackClick, handlePaginationBarClick } from './components/Pagination/utils/paginationUtils';
 
 const DOGS_PER_PAGE = 20;
 
@@ -39,7 +32,7 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [dogs, setDogs] = useState([]);
-  const [breedFilter, setBreedFilter] = useState('');
+  // const [breedFilter, setBreedFilter] = useState('');
   const [zipCodeFilter, setZipCodeFilter] = useState('');
   const [minAgeFilter, setMinAgeFilter] = useState(0);
   const [maxAgeFilter, setMaxAgeFilter] = useState(20);
@@ -59,30 +52,31 @@ const App = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
+      console.log('FILTERS ' + JSON.stringify(filters))
       fetchDogs({
         setDogs,
         setTotalPages,
         DOGS_PER_PAGE,
         currentPage,
-        breedFilter,
         zipCodeFilter,
         minAgeFilter,
         maxAgeFilter,
         sortField,
         sort,
         onFavoriteDogsSection,
+        filters,
       });
     }
   }, [
     isAuthenticated,
     currentPage,
-    breedFilter,
     zipCodeFilter,
     minAgeFilter,
     maxAgeFilter,
     heartedDogs,
     onFavoriteDogsSection,
     sort,
+    filters
   ]);
 
   const handleLoginCallback = async (name, email) => {
@@ -126,7 +120,7 @@ const App = () => {
               dogs={dogs}
               filters={filters}
               handleFilterChange={handleFilterChangeCallback}
-              handleBreedChange={handleBreedChange(setBreedFilter)}
+              // handleBreedChange={handleBreedChange(setBreedFilter)}
               handleZipCodeChange={handleZipCodeChange(
                 setZipCodeFilter,
                 zipCodeFilter,

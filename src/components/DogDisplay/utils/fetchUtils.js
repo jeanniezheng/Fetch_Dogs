@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { API_BASE_URL } from '../../../config';
 
-const buildFetchDogsURL = (breedFilter, zipCodeFilter, minAgeFilter, maxAgeFilter, sortField, sort, DOGS_PER_PAGE, currentPage, onFavoriteDogsSection) => {
+const buildFetchDogsURL = (breedFilter, zipCodeFilter, minAgeFilter, maxAgeFilter, sortField, sort, DOGS_PER_PAGE, currentPage, onFavoriteDogsSection, filters) => {
     let url = `${API_BASE_URL}/dogs/search?size=${DOGS_PER_PAGE}&from=${currentPage}`;
 
-    if (breedFilter && breedFilter.length > 0) {
-        const breedQueryString = breedFilter.map(breed => `breeds=${breed}`).join('&');
+    if (filters.breedFilter && filters.breedFilter.length > 0) {
+        const breedQueryString = filters.breedFilter.map(breed => `breeds=${breed}`).join('&');
         url += `&${breedQueryString}`;
     }
 
@@ -38,6 +38,7 @@ export const fetchDogs = async ({
     sortField,
     sort,
     onFavoriteDogsSection,
+    filters
 }) => {
     if (!onFavoriteDogsSection) {
 
@@ -51,7 +52,8 @@ export const fetchDogs = async ({
                 sort,
                 DOGS_PER_PAGE,
                 currentPage,
-                onFavoriteDogsSection
+                onFavoriteDogsSection,
+                filters
             );
             console.log('URL ' + url);
             const idResponse = await axios.get(url, { withCredentials: true });
