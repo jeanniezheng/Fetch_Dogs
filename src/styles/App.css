@@ -36,9 +36,9 @@ button:hover {
 
 .login-form-wrapper {
   background-color: #ffffff;
-  width: 50%;
-  height: 30%;
+  min-width: 30%;
   padding: 50px;
+  border: 1px solid black;
 }
 
 .login-form h2 {
