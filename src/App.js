@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import LoginForm from './components/Login/LoginForm';
 import Greetings from './components/DogDisplay/Greetings';
@@ -87,13 +87,25 @@ const App = () => {
     }
   };
 
-  const handleFilterChangeCallback = (field, value) => {
+  const handleFilterChangeCallback = useCallback((field, value) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
       [field]: value,
     }));
     setCurrentPage(0);
-  };
+  }, []);
+
+
+  // const handleZipCodeChange = (
+  //   setZipCodeFilter,
+  //   zipCodeFilter,
+  //   setCurrentPage
+  // ) => (value) => {
+  //   if (value !== zipCodeFilter) {
+  //     setZipCodeFilter(value);
+  //     setCurrentPage(0);
+  //   }
+  // };
 
   return (
     <div className="app-container">

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const ZipcodeFilter = ({ handleZipCodeChange }) => {
+const ZipcodeFilter = ({ handleZipCodeChange, handleFilterChange }) => {
     const [zipCode, setZipCode] = useState('');
     let debounceTimer = null;
 
@@ -13,10 +13,10 @@ const ZipcodeFilter = ({ handleZipCodeChange }) => {
     useEffect(() => {
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(() => {
-            handleZipCodeChange(zipCode);
+            handleFilterChange("zipCodeFilter", zipCode);
         }, 800);
         return () => clearTimeout(debounceTimer);
-    }, [zipCode, handleZipCodeChange]);
+    }, [zipCode, handleFilterChange]);
 
     return (
         <div className="zipcode-filter">

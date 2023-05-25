@@ -18,16 +18,16 @@ const SideBar = ({ dogs, handleZipCodeChange, handleMaxAgeChange, handleMinAgeCh
 
             <div className="sidebar-item">
                 <h3>Select Breed</h3>
-                <BreedFiltering dogs={dogs} filters={filters} handleFilterChange={handleFilterChange} />
+                <BreedFiltering dogs={dogs} handleFilterChange={handleFilterChange} />
             </div>
 
             <div className="sidebar-item">
                 <h3>Enter Location</h3>
-                <ZipcodeFilter dogs={dogs} handleZipCodeChange={handleZipCodeChange} />
+                <ZipcodeFilter handleZipCodeChange={handleZipCodeChange} handleFilterChange={handleFilterChange} />
             </div>
             <div className="sidebar-item">
                 <h3>Enter Age</h3>
-                <AgeFilter dogs={dogs} handleMaxAgeChange={handleMaxAgeChange} handleMinAgeChange={handleMinAgeChange} />
+                <AgeFilter dogs={dogs} handleMaxAgeChange={handleMaxAgeChange} handleMinAgeChange={handleMinAgeChange} handleFilterChange={handleFilterChange} />
             </div>
 
             <div className='sidebar-buttons'>

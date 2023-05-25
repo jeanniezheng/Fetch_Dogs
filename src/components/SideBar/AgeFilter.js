@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 
-const AgeFilter = ({ handleMaxAgeChange, handleMinAgeChange }) => {
+const AgeFilter = ({ handleMaxAgeChange, handleMinAgeChange, handleFilterChange }) => {
     const [minAge, setMinAge] = useState(0);
-    const [maxAge, setMaxAge] = useState(10);
+    const [maxAge, setMaxAge] = useState(20);
 
     const MinAgeChange = (event) => {
         const value = parseFloat(event.target.value);
         setMinAge(value);
-        handleMinAgeChange(value);
+        handleFilterChange("minAgeFilter", value);
     };
 
     const MaxAgeChange = (event) => {
         const value = parseFloat(event.target.value);
         setMaxAge(value);
-        handleMaxAgeChange(value);
+        handleFilterChange("maxAgeFilter", value);
     };
 
     return (

@@ -9,16 +9,16 @@ const buildFetchDogsURL = (breedFilter, zipCodeFilter, minAgeFilter, maxAgeFilte
         url += `&${breedQueryString}`;
     }
 
-    if (zipCodeFilter) {
-        url += `&zipCodes=${zipCodeFilter}`;
+    if (filters.zipCodeFilter) {
+        url += `&zipCodes=${filters.zipCodeFilter}`;
     }
 
-    if (minAgeFilter) {
-        url += `&ageMin=${minAgeFilter}`;
+    if (filters.minAgeFilter) {
+        url += `&ageMin=${filters.minAgeFilter}`;
     }
 
-    if (maxAgeFilter) {
-        url += `&ageMax=${maxAgeFilter}`;
+    if (filters.maxAgeFilter) {
+        url += `&ageMax=${filters.maxAgeFilter}`;
     }
 
     url += `&sort=${sortField}:${sort}`;
